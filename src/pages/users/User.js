@@ -108,7 +108,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                     <Modal.Header closeButton>
                         <Modal.Title>Enrolled Course</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{backgroundColor:'#fff'}}>
+                    <Modal.Body style={{backgroundColor:'#fff', position:'relative !important'}}>
                         <ol>
                         {selectedUserCourse && selectedUserCourse.map((item,idx) => {
                             return courses.map(element => {
