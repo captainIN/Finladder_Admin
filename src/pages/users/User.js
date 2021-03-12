@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
-import { fetchUsers, createCoupon, updateCategory, deleteCoupon, assignCourse } from '../../store/actions'
-function User({fetchUsers,createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses}) {
+import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse } from '../../store/actions'
+function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses}) {
     useEffect(() => {
         getAllUsers()
     }, [])
@@ -22,7 +22,8 @@ function User({fetchUsers,createCoupon, updateCategory, deleteCoupon, users, ass
     const handleShow1 = () => setShow1(true);
 
     const getAllUsers = async () => {
-        await fetchUsers()
+        await fetchCourse()
+        await fetchUsers(fetchCourse,)
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -130,4 +131,4 @@ const mapStateToProps = state => {
         courses: state.main.courses
     }
 }
-export default connect(mapStateToProps, {fetchUsers, createCoupon, updateCategory, deleteCoupon, assignCourse })(User)
+export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse })(User)
