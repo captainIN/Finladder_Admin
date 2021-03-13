@@ -55,6 +55,7 @@ function Course({fetchCourse, courses, categories}) {
                         <th style={{textAlign:'center', width: '10%'}}>Price</th>
                         <th style={{textAlign:'center', width: '10%'}}>Total Topics</th>
                         <th style={{textAlign:'center', width: '1%'}}>Show</th>
+                        <th style={{textAlign:'center', width: '1%'}}>Edit</th>
                         <th style={{textAlign:'center', width: '1%'}}>Delete</th>
                     </tr>
                 </thead>
@@ -69,6 +70,7 @@ function Course({fetchCourse, courses, categories}) {
                                 <td>{course.price}</td>
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
+                                <td><Link to={`/course/edit/${course._id}`} className="btn btn-outline-primary">Edit</Link></td>
                                 <td><Button variant="outline-danger">Delete</Button></td>
                             </tr>
                         }else{
@@ -81,6 +83,7 @@ function Course({fetchCourse, courses, categories}) {
                                 <td>{course.price}</td>
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
+                                <td><Link to={`/course/edit/${course._id}`} className="btn btn-outline-primary">Edit</Link></td>
                                 <td><Button variant="outline-danger">Delete</Button></td>
                             </tr>
                             }

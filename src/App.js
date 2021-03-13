@@ -18,6 +18,7 @@ import Category from './pages/category/Category';
 import Banner from './pages/banners/Banner';
 import Coupon from './pages/coupon/Coupon';
 import User from './pages/users/User';
+import EditCourseWizard from './pages/courses/EditCourseWizard';
 function App({isAuthenticated}) {
   return (
     <>
@@ -29,6 +30,7 @@ function App({isAuthenticated}) {
         
         {/* Courses below */}
         <Route exact path="/courses" component={isAuthenticated?Course:withRouter(Login)}/>
+        <Route exact path="/course/edit/:id" component={isAuthenticated?EditCourseWizard:withRouter(Login)}/>
         {/* <Route exact path="/detail/belt/:id" component={isAuthenticated?BeltDetailPage:withRouter(Login)}/> */}
         <Route exact path="/create/course" component={isAuthenticated?CourseWizard:withRouter(Login)}/>
         {/* <Route exact path="/edit/belt/:id" component={isAuthenticated?EditBelt:withRouter(Login)}/> */}

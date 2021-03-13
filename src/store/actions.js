@@ -78,6 +78,18 @@ export const createCourse = (data) => async (dispatch, getState) => {
   return res
 }
 
+export const EDIT_COURSE = 'EDIT_COURSE';
+export const editCourse = (id,data) => async (dispatch, getState) => {
+  const res = await axios.put(`${API_URL}/update-course/${id}`,data,{
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+
+  return res
+}
+
 export const FETCH_COURSE = 'FETCH_COURSE';
 export const fetchCourse = () => async (dispatch, getState) => {
   const res = await axios.get(`${API_URL}/course`,{
