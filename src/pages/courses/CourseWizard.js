@@ -24,8 +24,8 @@ function CourseWizard({createCourse, categories}) {
                     "duration":0.083,
                     "videoLink":"https://youtu.be/IXFxXY1-fBY",
                     "previewLink":"https://youtu.be/IXFxXY1-fBY",
-                    "docUrl":"https://youtu.be/IXFxXY1-fBY",
-                    "description": "blah bla blah..."
+                    "docUrl":"Link of the doc",
+                    "description": "Description for this subtopic"
                  }
               ]
            },
@@ -38,8 +38,8 @@ function CourseWizard({createCourse, categories}) {
                     "duration":0.083,
                     "videoLink":"https://youtu.be/IXFxXY1-fBY",
                     "previewLink":"https://youtu.be/IXFxXY1-fBY",
-                    "docUrl":"https://youtu.be/IXFxXY1-fBY",
-                    "description": "blah bla blah..."
+                    "docUrl":"Link of the doc",
+                    "description": "Description for this subtopic"
                  }
               ]
            }
