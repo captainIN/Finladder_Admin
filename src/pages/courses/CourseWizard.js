@@ -9,7 +9,7 @@ function CourseWizard({createCourse, categories}) {
         "courseDuration":22,
         "price":349,
         "thumbnailImage":"https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?Em0DhvE4qee9Rz2Hv5rWeexMG2bxiDMZbNcQ2Erq7Y73Z0qAlIxo40IJce82Efnc1sm9UOnSSaJKutT6xm_dqKGlA-VjrW8MF0lYGbaQS0PurjyHjPfn4VwGCiBk",
-        "categoryId":"hjdsjagsd7d87bs",
+        "categoryId":categories[0]._id,
         "description":"Learn Python like a Professional Start from the basics and go all the way to creating your own applications and games",
 
     })
