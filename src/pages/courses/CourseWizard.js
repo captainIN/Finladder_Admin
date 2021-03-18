@@ -23,7 +23,9 @@ function CourseWizard({createCourse, categories}) {
                     "subTopicName":"Why Python?",
                     "duration":0.083,
                     "videoLink":"https://youtu.be/IXFxXY1-fBY",
-                    "previewLink":"https://youtu.be/IXFxXY1-fBY"
+                    "previewLink":"https://youtu.be/IXFxXY1-fBY",
+                    "docUrl":"https://youtu.be/IXFxXY1-fBY",
+                    "description": "blah bla blah..."
                  }
               ]
            },
@@ -35,7 +37,9 @@ function CourseWizard({createCourse, categories}) {
                     "subTopicName":"Why Django?",
                     "duration":0.083,
                     "videoLink":"https://youtu.be/IXFxXY1-fBY",
-                    "previewLink":"https://youtu.be/IXFxXY1-fBY"
+                    "previewLink":"https://youtu.be/IXFxXY1-fBY",
+                    "docUrl":"https://youtu.be/IXFxXY1-fBY",
+                    "description": "blah bla blah..."
                  }
               ]
            }
@@ -60,7 +64,9 @@ function CourseWizard({createCourse, categories}) {
             "subTopicName":"",
             "duration":"",
             "videoLink":"",
-            "previewLink":""
+            "previewLink":"",
+            "docUrl":"",
+            "description": ""
          })
          settopic(temp)
     }
@@ -168,6 +174,14 @@ function CourseWizard({createCourse, categories}) {
                                     <Form.Group as={Col} lg={3} controlId="formGridAddress2">
                                         <Form.Label>Link of Preview</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "previewLink", e.target.value)} placeholder="" value={subT.previewLink}/>
+                                    </Form.Group>
+                                    <Form.Group as={Col} lg={9} controlId="formGridAddress2">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control as="textarea" rows={2} onChange={e => updateSubValue(idx, index, "description", e.target.value)} placeholder="" value={subT.description}/>
+                                    </Form.Group>
+                                    <Form.Group as={Col} lg={3} controlId="formGridAddress2">
+                                        <Form.Label>Upload Document</Form.Label>
+                                        <Form.Control type="text" onChange={e => updateSubValue(idx, index, "docUrl", e.target.value)} placeholder="" value={subT.docUrl}/>
                                     </Form.Group>
                                 </Row>
                                 

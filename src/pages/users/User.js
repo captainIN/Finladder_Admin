@@ -4,9 +4,11 @@ import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
 import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse } from '../../store/actions'
 function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses}) {
+    const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
         getAllUsers()
     }, [])
+
     const [selectedUserCourse, setselectedUserCourse] = useState(null)
     const [selectedUser, setselectedUser] = useState(null)
     const [updateCategoryName, setUpdateCategoryName] = useState("")
@@ -56,6 +58,8 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         <MainWrapper current="2">
             {/* <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New Coupon</Button> */}
             <br/>
+            <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}} placeholder="Search..." style={{width:'300px'}}/>
+            <br/>
             <Table bordered>
                 <thead>
                     <tr>
@@ -69,16 +73,18 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                 </thead>
                 <tbody>
                     {users.map((item,idx) => {
-                        return <tr key={item._id}>
-                            <td>{idx+1}</td>
-                            <td>{item.name}</td>
-                            <td>{item.mobile}</td>
-                            <td>{item.email}</td>
-                            <td>Total : {item.myCart.length} | <Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item.myCart);}}>View</Button></td>
-                            <td>
-                                <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
-                            </td>
-                        </tr>
+                        if(item.name.toLowerCase().includes(searchQuery.toLowerCase())){
+                            return <tr key={item._id}>
+                                <td>{idx+1}</td>
+                                <td>{item.name}</td>
+                                <td>{item.mobile}</td>
+                                <td>{item.email}</td>
+                                <td>Total : {item.myCart.length} | <Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item.myCart);}}>View</Button></td>
+                                <td>
+                                    <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
+                                </td>
+                            </tr>
+                        }
                     })}
                 </tbody>
             </Table>
