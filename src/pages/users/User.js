@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
-import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse } from '../../store/actions'
-function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses}) {
+import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse } from '../../store/actions'
+function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
         getAllUsers()
@@ -36,7 +36,8 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         alert("Course Assigned Successfully!")
         getAllUsers()
     }
-    const showHisCourse = (id) => {
+    const showHisCourse = (userid,id) => {
+        setselectedUser(userid)
         setselectedUserCourse(id)
         handleShow1()
     }
@@ -79,7 +80,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                                 <td>{item.name}</td>
                                 <td>{item.mobile}</td>
                                 <td>{item.email}</td>
-                                <td>Total : {item.myCart.length} | <Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item.myCart);}}>View</Button></td>
+                                <td>Total : {item.myCart.length} | <Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item._id, item.myCart);}}>View</Button></td>
                                 <td>
                                     <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
                                 </td>
@@ -110,7 +111,6 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                     </Modal.Footer> */}
             </Modal>
             <Modal show={show1} onHide={handleClose1} animation={false}>
-                <Form>
                     <Modal.Header closeButton>
                         <Modal.Title>Enrolled Course</Modal.Title>
                     </Modal.Header>
@@ -119,14 +119,13 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                         {selectedUserCourse && selectedUserCourse.map((item,idx) => {
                             return courses.map(element => {
                                     if(item.courseId === element._id){
-                                        return <li>{element.courseName}</li>
+                                        return <li>{element.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:element._id});await getAllUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
                                     }
                                 })
                             
                         })}
                         </ol>
                     </Modal.Body>
-                </Form>
             </Modal>
         </MainWrapper>
     )
@@ -137,4 +136,4 @@ const mapStateToProps = state => {
         courses: state.main.courses
     }
 }
-export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse })(User)
+export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse })(User)

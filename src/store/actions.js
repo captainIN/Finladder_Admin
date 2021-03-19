@@ -173,6 +173,16 @@ export const assignCourse = (data) => async (dispatch, getState) => {
   });
   return res
 }
+export const UN_ASSIGN_COURSE = 'UN_ASSIGN_COURSE';
+export const unassignCourse = (data) => async (dispatch, getState) => {
+  const res = await axios.post(`${API_URL}/remove-course-from-user`,data, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res
+}
 
 export const FETCH_COUPONS = 'FETCH_COUPONS';
 export const fetchCoupons = () => async (dispatch, getState) => {
