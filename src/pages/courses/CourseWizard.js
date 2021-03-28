@@ -22,8 +22,8 @@ function CourseWizard({createCourse, categories}) {
                  {
                     "subTopicName":"Why Python?",
                     "duration":0.083,
-                    "videoLink":"https://youtu.be/IXFxXY1-fBY",
-                    "previewLink":"https://youtu.be/IXFxXY1-fBY",
+                    "videoLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
+                    "previewLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "docUrl":"Link of the doc",
                     "description": "Description for this subtopic"
                  }
@@ -36,8 +36,8 @@ function CourseWizard({createCourse, categories}) {
                  {
                     "subTopicName":"Why Django?",
                     "duration":0.083,
-                    "videoLink":"https://youtu.be/IXFxXY1-fBY",
-                    "previewLink":"https://youtu.be/IXFxXY1-fBY",
+                    "videoLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
+                    "previewLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "docUrl":"Link of the doc",
                     "description": "Description for this subtopic"
                  }
@@ -163,16 +163,16 @@ function CourseWizard({createCourse, categories}) {
                                         <Form.Label>Sub Topic Name</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "subTopicName", e.target.value)} placeholder="" value={subT.subTopicName}/>
                                     </Form.Group>
-                                    <Form.Group as={Col} lg={3  } controlId="formGridAddress2">
+                                    <Form.Group as={Col} lg={2  } controlId="formGridAddress2">
                                         <Form.Label>Duration</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "duration", e.target.value)} placeholder="" value={subT.duration}/>
                                     </Form.Group>
-                                    <Form.Group as={Col} lg={3} controlId="formGridAddress2">
-                                        <Form.Label>Link Of Video</Form.Label>
+                                    <Form.Group as={Col} lg={4} controlId="formGridAddress2">
+                                        <Form.Label>Link Of Video <span className="text-muted" style={{fontSize: 10}}>(<strong>"https://www.youtube.com/watch?v=videoId"</strong>)</span></Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "videoLink", e.target.value)} placeholder="" value={subT.videoLink}/>
                                     </Form.Group>
                                     <Form.Group as={Col} lg={3} controlId="formGridAddress2">
-                                        <Form.Label>Link of Preview</Form.Label>
+                                        <Form.Label>Link of Preview </Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "previewLink", e.target.value)} placeholder="" value={subT.previewLink}/>
                                     </Form.Group>
                                     <Form.Group as={Col} lg={9} controlId="formGridAddress2">

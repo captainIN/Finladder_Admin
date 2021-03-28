@@ -15,7 +15,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
                         "courseDuration":item.courseDuration,
                         "price":item.price,
                         "thumbnailImage":item.thumbnailImage,
-                        "categoryId":item.categoryId,
+                        "categoryId":item.categoryId?item.categoryId:categories[0]._id,
                         "description":item.description,
                 
                     }

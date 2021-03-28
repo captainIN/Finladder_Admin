@@ -66,7 +66,7 @@ function Course({fetchCourse, courses, categories}) {
                                 <td>{index+1}</td>
                                 <td><img width="100" src={course.thumbnailImage} alt={index} /></td>
                                 <td>{course.courseName}</td>
-                                <td>{course.categoryId.categoryName}</td>
+                                {course.categoryId?<td>{course.categoryId.categoryName}</td>:<td style={{color:'red'}}>Category Deleted</td>}
                                 <td>{course.price}</td>
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
