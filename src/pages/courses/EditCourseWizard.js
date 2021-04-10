@@ -17,7 +17,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
                         "thumbnailImage":item.thumbnailImage,
                         "categoryId":item.categoryId?item.categoryId:categories[0]._id,
                         "description":item.description,
-                
+                        "rating": item.rating
                     }
                 )
                 settopic(item.topics)
@@ -84,7 +84,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
         <MainWrapper current="1">
             <br/>
             <div className="course-wizard" style={{backgroundColor:'#fff', padding: '10px 20px'}}>
-            <h2>New Course Wizard</h2>
+            <h2>Edit Course Wizard</h2>
             <hr/>
             {courseInfo && <Form onSubmit={e => handleSubmit(e)}>
                 <Row>
@@ -103,6 +103,10 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
                             <Form.Group as={Col} lg={5} controlId="formGridAddress2">
                                 <Form.Label>Thumbnail Image URL</Form.Label>
                                 <Form.Control type="text" placeholder="" value={courseInfo.thumbnailImage} onChange={e=>{updateCourseValue('thumbnailImage', e.target.value)}}/>
+                            </Form.Group>
+                            <Form.Group as={Col} lg={1} controlId="formGridAddress2">
+                                <Form.Label>Rating</Form.Label>
+                                <Form.Control type="text" placeholder="" value={courseInfo.rating} onChange={e=>{updateCourseValue('rating', e.target.value)}}/>
                             </Form.Group>
                             <Form.Group controlId="exampleForm.SelectCustom">
                                 <Form.Label>Category</Form.Label>

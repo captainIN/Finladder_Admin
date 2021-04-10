@@ -205,6 +205,14 @@ export const deleteCoupon = (id) => async (dispatch, getState) => {
   return res
 }
 
+export const DELETE_COURSE = 'DELETE_COURSE';
+export const deleteCourse = (id) => async (dispatch, getState) => {
+  const res = await axios.delete(`${API_URL}/deletecourse/${id}`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  return res
+}
+
 export const FETCH_USERS = 'FETCH_USERS';
 export const fetchUsers = () => async (dispatch, getState) => {
   const res = await axios.get(`${API_URL}/get-all-users`, {

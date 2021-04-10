@@ -11,7 +11,7 @@ function CourseWizard({createCourse, categories}) {
         "thumbnailImage":"https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?Em0DhvE4qee9Rz2Hv5rWeexMG2bxiDMZbNcQ2Erq7Y73Z0qAlIxo40IJce82Efnc1sm9UOnSSaJKutT6xm_dqKGlA-VjrW8MF0lYGbaQS0PurjyHjPfn4VwGCiBk",
         "categoryId":categories[0]._id,
         "description":"Learn Python like a Professional Start from the basics and go all the way to creating your own applications and games",
-
+        "rating": 5
     })
     const [topics, settopic] = useState([
         
@@ -96,7 +96,8 @@ function CourseWizard({createCourse, categories}) {
             ...courseInfo, topics
         }
         console.log(data)
-        await createCourse(data)
+        const res = await createCourse(data)
+        alert(JSON.stringify(res.data))
     }
     return (
         <MainWrapper current="1">
@@ -121,6 +122,10 @@ function CourseWizard({createCourse, categories}) {
                             <Form.Group as={Col} lg={5} controlId="formGridAddress2">
                                 <Form.Label>Thumbnail Image URL</Form.Label>
                                 <Form.Control type="text" placeholder="" value={courseInfo.thumbnailImage} onChange={e=>{updateCourseValue('thumbnailImage', e.target.value)}}/>
+                            </Form.Group>
+                            <Form.Group as={Col} lg={1} controlId="formGridAddress2">
+                                <Form.Label>Rating</Form.Label>
+                                <Form.Control type="text" placeholder="5" value={courseInfo.rating} onChange={e=>{updateCourseValue('rating', e.target.value)}}/>
                             </Form.Group>
                             <Form.Group controlId="exampleForm.SelectCustom">
                                 <Form.Label>Category</Form.Label>

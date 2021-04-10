@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button, Modal } from 'react-bootstrap'
-import { fetchCourse } from '../../store/actions'
+import { fetchCourse, deleteCourse } from '../../store/actions'
 
-function Course({fetchCourse, courses, categories}) {
+function Course({fetchCourse, deleteCourse, courses, categories}) {
     const [selectedCat, setselectedCat] = useState("all")
     const [show, setShow] = useState(false);
     const [currentCourse, setCurrentCourse] = useState(null);
@@ -71,7 +71,7 @@ function Course({fetchCourse, courses, categories}) {
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
                                 <td><Link to={`/course/edit/${course._id}`} className="btn btn-outline-primary">Edit</Link></td>
-                                <td><Button variant="outline-danger">Delete</Button></td>
+                                <td><Button variant="outline-danger" onClick={async ()=>{await deleteCourse(course._id); fetchAllCourse()}}>Delete</Button></td>
                             </tr>
                         }else{
                             if(selectedCat === course.categoryId.categoryName){
@@ -84,7 +84,7 @@ function Course({fetchCourse, courses, categories}) {
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
                                 <td><Link to={`/course/edit/${course._id}`} className="btn btn-outline-primary">Edit</Link></td>
-                                <td><Button variant="outline-danger">Delete</Button></td>
+                                <td><Button variant="outline-danger" onClick={async ()=>{await deleteCourse(course._id); fetchAllCourse()}}>Delete</Button></td>
                             </tr>
                             }
                             
@@ -144,4 +144,4 @@ const mapStatesToProps = state => {
         categories: state.main.categories
     }
 }
-export default connect(mapStatesToProps,{fetchCourse})(Course);
+export default connect(mapStatesToProps,{fetchCourse, deleteCourse})(Course);
