@@ -3,6 +3,9 @@ import { Form, Col, Button, Row } from 'react-bootstrap'
 import MainWrapper from '../../components/MainWrapper'
 import { editCourse, fetchCourse } from '../../store/actions'
 import {connect} from 'react-redux'
+import moment from 'moment'
+import Axios from 'axios'
+
 function EditCourseWizard({editCourse, categories, match, courses, fetchCourse}) {
     const [courseInfo, setcourseInfo] = useState(null)
     const [topics, settopic] = useState([])
@@ -37,6 +40,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
         let temp = [...topics]
          temp.splice(idx, 1);
          settopic(temp)
+         getCourseDuration()
     }
     const addSubTopics = (idx) => {
         let temp = [...topics]
@@ -54,6 +58,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
         let temp = [...topics]
          temp[idx1].subTopics.splice(idx2, 1);
          settopic(temp)
+         getTopicDuration(idx1)
     }
     const updateSubValue = (idx1, idx2, key, value) => {
         let temp = [...topics]
@@ -69,6 +74,32 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
         let temp = {...courseInfo}
         temp[key] = value
         setcourseInfo(temp)
+    }
+    const getTimeDuration = async (link, idx, index) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = link.match(regExp);
+        if(match&&match[7].length==11){
+            const res = await Axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${match[7]}&part=contentDetails&key=AIzaSyCOscc7A9jIRE6aC2rmxJlWWtfiRzLs0OE`)
+            console.log(res.data.items[0].contentDetails.duration)
+            var somevalue = moment.duration(res.data.items[0].contentDetails.duration).asSeconds()
+            updateSubValue(idx, index, "duration", somevalue)
+            getTopicDuration(idx)
+        }
+    }
+    const getTopicDuration = (idx) => {
+        var sumValue = 0
+        topics[idx].subTopics.map(sub => {
+            sumValue += Number(sub.duration)
+        })
+        updateTopicValue(idx, "topicDuration", sumValue)
+        getCourseDuration()
+    }
+    const getCourseDuration = () => {
+        var sumValue = 0
+        topics.map(top => {
+            sumValue += Number(top.topicDuration)
+        })
+        updateCourseValue('courseDuration', sumValue)
     }
     const handleSubmit = async (e) => {
         e.preventDefault()  
@@ -149,13 +180,14 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
                                         <Form.Label>Sub Topic Name</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "subTopicName", e.target.value)} placeholder="" value={subT.subTopicName}/>
                                     </Form.Group>
+                                    
+                                    <Form.Group as={Col} lg={3} controlId="formGridAddress2">
+                                        <Form.Label>Link Of Video</Form.Label>
+                                        <Form.Control type="text" onChange={e => {updateSubValue(idx, index, "videoLink", e.target.value); getTimeDuration(e.target.value,idx, index);}} placeholder="" value={subT.videoLink}/>
+                                    </Form.Group>
                                     <Form.Group as={Col} lg={3  } controlId="formGridAddress2">
                                         <Form.Label>Duration</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "duration", e.target.value)} placeholder="" value={subT.duration}/>
-                                    </Form.Group>
-                                    <Form.Group as={Col} lg={3} controlId="formGridAddress2">
-                                        <Form.Label>Link Of Video</Form.Label>
-                                        <Form.Control type="text" onChange={e => updateSubValue(idx, index, "videoLink", e.target.value)} placeholder="" value={subT.videoLink}/>
                                     </Form.Group>
                                     <Form.Group as={Col} lg={3} controlId="formGridAddress2">
                                         <Form.Label>Link of Preview</Form.Label>

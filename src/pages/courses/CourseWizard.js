@@ -3,10 +3,14 @@ import { Form, Col, Button, Row } from 'react-bootstrap'
 import MainWrapper from '../../components/MainWrapper'
 import { createCourse } from '../../store/actions'
 import {connect} from 'react-redux'
+import moment from 'moment'
+import Axios from 'axios'
+
+
 function CourseWizard({createCourse, categories}) {
     const [courseInfo, setcourseInfo] = useState({
         "courseName":"2021 Complete Python Bootcamp From Zero to Hero in Python",
-        "courseDuration":22,
+        "courseDuration":50,
         "price":349,
         "thumbnailImage":"https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?Em0DhvE4qee9Rz2Hv5rWeexMG2bxiDMZbNcQ2Erq7Y73Z0qAlIxo40IJce82Efnc1sm9UOnSSaJKutT6xm_dqKGlA-VjrW8MF0lYGbaQS0PurjyHjPfn4VwGCiBk",
         "categoryId":categories[0]._id,
@@ -17,11 +21,11 @@ function CourseWizard({createCourse, categories}) {
         
            {
               "topicName":"Course Overview 1",
-              "topicDuration":0.10,
+              "topicDuration":25,
               "subTopics":[
                  {
                     "subTopicName":"Why Python?",
-                    "duration":0.083,
+                    "duration":25,
                     "videoLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "previewLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "docUrl":"Link of the doc",
@@ -31,11 +35,11 @@ function CourseWizard({createCourse, categories}) {
            },
            {
               "topicName":"Course Overview 2",
-              "topicDuration":0.20,
+              "topicDuration":25,
               "subTopics":[
                  {
                     "subTopicName":"Why Django?",
-                    "duration":0.083,
+                    "duration":25,
                     "videoLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "previewLink":"https://www.youtube.com/watch?v=IXFxXY1-fBY",
                     "docUrl":"Link of the doc",
@@ -57,6 +61,7 @@ function CourseWizard({createCourse, categories}) {
         let temp = [...topics]
          temp.splice(idx, 1);
          settopic(temp)
+         getCourseDuration()
     }
     const addSubTopics = (idx) => {
         let temp = [...topics]
@@ -74,6 +79,7 @@ function CourseWizard({createCourse, categories}) {
         let temp = [...topics]
          temp[idx1].subTopics.splice(idx2, 1);
          settopic(temp)
+         getTopicDuration(idx1)
     }
     const updateSubValue = (idx1, idx2, key, value) => {
         let temp = [...topics]
@@ -89,6 +95,32 @@ function CourseWizard({createCourse, categories}) {
         let temp = {...courseInfo}
         temp[key] = value
         setcourseInfo(temp)
+    }
+    const getTimeDuration = async (link, idx, index) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = link.match(regExp);
+        if(match&&match[7].length==11){
+            const res = await Axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${match[7]}&part=contentDetails&key=AIzaSyCOscc7A9jIRE6aC2rmxJlWWtfiRzLs0OE`)
+            console.log(res.data.items[0].contentDetails.duration)
+            var somevalue = moment.duration(res.data.items[0].contentDetails.duration).asSeconds()
+            updateSubValue(idx, index, "duration", somevalue)
+            getTopicDuration(idx)
+        }
+    }
+    const getTopicDuration = (idx) => {
+        var sumValue = 0
+        topics[idx].subTopics.map(sub => {
+            sumValue += sub.duration
+        })
+        updateTopicValue(idx, "topicDuration", sumValue)
+        getCourseDuration()
+    }
+    const getCourseDuration = () => {
+        var sumValue = 0
+        topics.map(top => {
+            sumValue += top.topicDuration
+        })
+        updateCourseValue('courseDuration', sumValue)
     }
     const handleSubmit = async (e) => {
         e.preventDefault()  
@@ -112,7 +144,7 @@ function CourseWizard({createCourse, categories}) {
                                 <Form.Control type="text" placeholder="" value={courseInfo.courseName} onChange={e=>{updateCourseValue('courseName', e.target.value)}}/>
                             </Form.Group>
                             <Form.Group as={Col} lg={3} controlId="formGridAddress2">
-                                <Form.Label>Course Duration</Form.Label>
+                                <Form.Label>Course Duration(s)</Form.Label>
                                 <Form.Control type="text" placeholder="" value={courseInfo.courseDuration} onChange={e=>{updateCourseValue('courseDuration', e.target.value)}}/>
                             </Form.Group>
                             <Form.Group as={Col} lg={3} controlId="formGridAddress2">
@@ -151,7 +183,7 @@ function CourseWizard({createCourse, categories}) {
                                 <Form.Control type="text" placeholder="" value={topi.topicName} onChange={e => updateTopicValue(idx, "topicName", e.target.value)}/>
                             </Form.Group>
                             <Form.Group as={Col} lg={6} controlId="formGridAddress2">
-                                <Form.Label>Topic Duration</Form.Label>
+                                <Form.Label>Topic Duration(s)</Form.Label>
                                 <Form.Control type="text" placeholder="" value={topi.topicDuration} onChange={e => updateTopicValue(idx, "topicDuration", e.target.value)}/>
                             </Form.Group>
                             {topi.subTopics.map((subT, index) => {
@@ -168,13 +200,14 @@ function CourseWizard({createCourse, categories}) {
                                         <Form.Label>Sub Topic Name</Form.Label>
                                         <Form.Control type="text" onChange={e => updateSubValue(idx, index, "subTopicName", e.target.value)} placeholder="" value={subT.subTopicName}/>
                                     </Form.Group>
-                                    <Form.Group as={Col} lg={2  } controlId="formGridAddress2">
-                                        <Form.Label>Duration</Form.Label>
-                                        <Form.Control type="text" onChange={e => updateSubValue(idx, index, "duration", e.target.value)} placeholder="" value={subT.duration}/>
-                                    </Form.Group>
+                                    
                                     <Form.Group as={Col} lg={4} controlId="formGridAddress2">
                                         <Form.Label>Link Of Video <span className="text-muted" style={{fontSize: 10}}>(<strong>"https://www.youtube.com/watch?v=videoId"</strong>)</span></Form.Label>
-                                        <Form.Control type="text" onChange={e => updateSubValue(idx, index, "videoLink", e.target.value)} placeholder="" value={subT.videoLink}/>
+                                        <Form.Control type="text" onChange={e => {updateSubValue(idx, index, "videoLink", e.target.value); getTimeDuration(e.target.value,idx, index)}} placeholder="" value={subT.videoLink}/>
+                                    </Form.Group>
+                                    <Form.Group as={Col} lg={2  } controlId="formGridAddress2">
+                                        <Form.Label>Duration(s)</Form.Label>
+                                        <Form.Control type="text" onChange={e => updateSubValue(idx, index, "duration", e.target.value)} placeholder="" value={subT.duration}/>
                                     </Form.Group>
                                     <Form.Group as={Col} lg={3} controlId="formGridAddress2">
                                         <Form.Label>Link of Preview </Form.Label>

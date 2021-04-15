@@ -103,17 +103,17 @@ function Course({fetchCourse, deleteCourse, courses, categories}) {
                         <div>
                             <h2>{currentCourse.courseName}</h2>
                             <h6>Rs {currentCourse.price}</h6>
-                            <h6>{currentCourse.courseDuration} hours</h6>
+                            <h6>{currentCourse.courseDuration} secs</h6>
                             <strong>{currentCourse.categoryId.categoryName}</strong>
                             <p>{currentCourse.description}</p>
                         </div>
                         <div>
                         <ol>
                             {currentCourse.topics.map((topic, idx) => {
-                                return <li key={idx}><strong>{topic.topicName}</strong> ({topic.topicDuration} hours)
+                                return <li key={idx}><strong>{topic.topicName}</strong> ({topic.topicDuration} secs)
                                         {topic.subTopics.map(sub =>{
                                             return <ul>
-                                                <li>{sub.subTopicName} - {sub.duration} hours</li>
+                                                <li>{sub.subTopicName} - {sub.duration} secs</li>
                                                 <li>Preview - <a href={sub.previewLink}>link</a></li>
                                                 <li>Video - <a href={sub.videoLink}>link</a></li>
                                             </ul>
