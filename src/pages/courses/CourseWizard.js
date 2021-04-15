@@ -110,7 +110,7 @@ function CourseWizard({createCourse, categories}) {
     const getTopicDuration = (idx) => {
         var sumValue = 0
         topics[idx].subTopics.map(sub => {
-            sumValue += sub.duration
+            sumValue += Number(sub.duration)
         })
         updateTopicValue(idx, "topicDuration", sumValue)
         getCourseDuration()
@@ -118,7 +118,7 @@ function CourseWizard({createCourse, categories}) {
     const getCourseDuration = () => {
         var sumValue = 0
         topics.map(top => {
-            sumValue += top.topicDuration
+            sumValue += Number(top.topicDuration)
         })
         updateCourseValue('courseDuration', sumValue)
     }
