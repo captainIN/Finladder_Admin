@@ -117,10 +117,10 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                     <Modal.Body style={{backgroundColor:'#fff', position:'relative !important'}}>
                         <ol>
                         {selectedUserCourse && selectedUserCourse.map((item,idx) => {
-                            return courses.map(element => {
-                                    if(item.courseId === element._id){
-                                        return <li>{element.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:element._id});await getAllUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
-                                    }
+                            return selectedUserCourse.map(element => {
+                                    
+                                        return <li>{element.courseId.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:element.courseId._id});await getAllUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
+                                    
                                 })
                             
                         })}
