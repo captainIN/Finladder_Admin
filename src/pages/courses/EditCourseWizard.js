@@ -9,16 +9,21 @@ import Axios from 'axios'
 function EditCourseWizard({editCourse, categories, match, courses, fetchCourse}) {
     const [courseInfo, setcourseInfo] = useState(null)
     const [topics, settopic] = useState([])
+    const [currentCategory, setCurrentCategory] = useState(null)
     useEffect(() => {
+        
         courses.map(item => {
             if(item._id === match.params.id){
+                if(item.categoryId){
+                    setCurrentCategory(item.categoryId._id)
+                }
                 setcourseInfo(
                     {
                         "courseName":item.courseName,
                         "courseDuration":item.courseDuration,
                         "price":item.price,
                         "thumbnailImage":item.thumbnailImage,
-                        "categoryId":item.categoryId?item.categoryId:categories[0]._id,
+                        "categoryId":item.categoryId?item.categoryId._id:categories[0]._id,
                         "description":item.description,
                         "rating": item.rating
                     }
@@ -141,7 +146,7 @@ function EditCourseWizard({editCourse, categories, match, courses, fetchCourse})
                             </Form.Group>
                             <Form.Group controlId="exampleForm.SelectCustom">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control as="select" custom onChange={e=>{updateCourseValue('categoryId', e.target.value)}}>
+                                <Form.Control as="select" value={currentCategory?currentCategory:"none"} onChange={e=>{updateCourseValue('categoryId', e.target.value);setCurrentCategory(e.target.value);}}>
                                     {categories.map(item =>{
                                         return <option value={item._id}>{item.categoryName}</option>
                                     })}
