@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const API_URL = "https://udemy-adminside.herokuapp.com"
+// const API_URL = "https://udemy-adminside.herokuapp.com"
+const API_URL = "https://finladder.co/api/admin"
 
 export const SIGNUP= 'SIGNUP';
 export const createAdmin = (name, email, mobile, password, history) => async (dispatch, getState) => {
