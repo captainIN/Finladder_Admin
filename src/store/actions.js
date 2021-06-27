@@ -216,7 +216,7 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const fetchUsers = () => async (dispatch, getState) => {
-  const res = await axios.get(`${API_URL}/get-all-users`, {
+  const res = await axios.get(`${API_URL}/get-all-users?page=1`, {
     headers: {
       "Content-Type": 'application/json',
       "Authorization": `${getState().auth.token}`
