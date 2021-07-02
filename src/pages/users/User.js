@@ -26,7 +26,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
     const getAllUsers = async () => {
         await fetchCourse()
         const total_count = await fetchUsers()
-        for(let i=1; i<=total_count/20; i++){
+        for(let i=2; i<=total_count/20; i++){
             await fetchNextUsers(i)
         }
     }
