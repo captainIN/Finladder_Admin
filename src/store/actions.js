@@ -214,6 +214,21 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
   return res
 }
 
+export const FETCH_LATEST_USERS = 'FETCH_LATEST_USERS';
+export const fetchLatestUsers = () => async (dispatch, getState) => {
+  const res = await axios.get(`${API_URL}/get-all-users?page=1`, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  dispatch({
+    type: FETCH_LATEST_USERS,
+    payload: {users:res.data.data}
+  });
+  return res.data.count
+}
+
 export const FETCH_USERS = 'FETCH_USERS';
 export const fetchUsers = () => async (dispatch, getState) => {
   const res = await axios.get(`${API_URL}/get-all-users?page=1`, {

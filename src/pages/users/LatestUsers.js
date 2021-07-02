@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
-import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
-function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
+import { fetchLatestUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
+function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
-        if(!fetching){
-            getAllUsers()
-        }
+            getAllLatestUsers()
     }, [])
 
     const [selectedUserCourse, setselectedUserCourse] = useState(null)
@@ -25,17 +23,9 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
 
-    const getAllUsers = async () => {
+    const getAllLatestUsers = async () => {
         await fetchCourse()
-        const total_count = await fetchUsers()
-        for(let i=2; i<=total_count/20; i++){
-            if(i === Math.floor(total_count/20)){
-                await fetchNextUsers(i, false)
-            }else{
-                await fetchNextUsers(i, true)
-            }
-            
-        }
+        await fetchLatestUsers()
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -44,7 +34,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         })
         handleClose()
         alert("Course Assigned Successfully!")
-        getAllUsers()
+        getAllLatestUsers()
     }
     const showHisCourse = (userid,id) => {
         setselectedUser(userid)
@@ -58,7 +48,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
             "categoryId": currentCategory.id
         })
         handleClose1()
-        getAllUsers()
+        getAllLatestUsers()
     }
     const beginAssigning = async (id) => {
         setselectedUser(id)
@@ -66,11 +56,9 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
     }
     return (
         
-        <MainWrapper current="2">
+        <MainWrapper current="2.5">
             {/* <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New Coupon</Button> */}
             <br/>
-            <p>Total Users: {total_users}, Pages Loaded: {page_no}</p>
-            
             <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}} placeholder="Search..." style={{width:'300px'}}/>
             <br/>
             <Table bordered>
@@ -130,7 +118,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                         <ol>
                         {selectedUserCourse && selectedUserCourse.map((item,idx) => {
                             
-                                        return <li>{item.courseId.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:item.courseId._id});await getAllUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
+                                        return <li>{item.courseId.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:item.courseId._id});await getAllLatestUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
                                   
                         })}
                         </ol>
@@ -141,11 +129,11 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
 }
 const mapStateToProps = state => {
     return {
-        users: state.main.users,
+        users: state.main.latest_users,
         courses: state.main.courses,
         total_users: state.main.total_users,
         page_no: state.main.page_no,
         fetching: state.main.fetching
     }
 }
-export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(User)
+export default connect(mapStateToProps, {fetchLatestUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(LatestUsers)

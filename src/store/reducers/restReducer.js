@@ -3,6 +3,7 @@ const initialState = {
     categories: [],
     banners: [],
     coupons: [],
+    latest_users: [],
     users: [],
     total_users: 500,
     page_no: 1,
@@ -29,6 +30,11 @@ export default (state = initialState, action) => {
       return{
         ...state,
         coupons: action.payload
+      }
+    case 'FETCH_LATEST_USERS':
+      return{
+        ...state,
+        latest_users: action.payload.users,
       }
     case 'FETCH_USERS':
       return{

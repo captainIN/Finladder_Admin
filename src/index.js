@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
 })
 
 const persistConfig = {
-    key: 'finladder-admin-v2',
+    key: 'finladder-admin-v3',
     storage,
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)

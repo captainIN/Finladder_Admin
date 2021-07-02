@@ -19,6 +19,7 @@ import Banner from './pages/banners/Banner';
 import Coupon from './pages/coupon/Coupon';
 import User from './pages/users/User';
 import EditCourseWizard from './pages/courses/EditCourseWizard';
+import LatestUsers from './pages/users/LatestUsers';
 function App({isAuthenticated}) {
   return (
     <>
@@ -39,6 +40,7 @@ function App({isAuthenticated}) {
         <Route exact path="/coupons" component={isAuthenticated?Coupon:withRouter(Login)}/>
 
         <Route exact path="/students" component={isAuthenticated?User:withRouter(Login)}/>
+        <Route exact path="/latest-students" component={isAuthenticated?LatestUsers:withRouter(Login)}/>
 
         <Route exact path="/categories" component={isAuthenticated?Category:withRouter(Login)}/>
 
