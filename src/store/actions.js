@@ -224,13 +224,13 @@ export const fetchUsers = () => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_USERS,
-    payload: {users:res.data.data, count: res.data.count}
+    payload: {users:res.data.data, count: res.data.count, fetching: true}
   });
   return res.data.count
 }
 
 export const FETCH_NEXT_USERS = 'FETCH_NEXT_USERS';
-export const fetchNextUsers = (page_no) => async (dispatch, getState) => {
+export const fetchNextUsers = (page_no, fetching) => async (dispatch, getState) => {
   const res = await axios.get(`${API_URL}/get-all-users?page=${page_no}`, {
     headers: {
       "Content-Type": 'application/json',
@@ -239,6 +239,6 @@ export const fetchNextUsers = (page_no) => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_NEXT_USERS,
-    payload: {users:res.data.data, count: res.data.count, page_no: page_no}
+    payload: {users:res.data.data, count: res.data.count, page_no: page_no, fetching: fetching}
   });
 }

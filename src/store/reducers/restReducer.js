@@ -5,7 +5,8 @@ const initialState = {
     coupons: [],
     users: [],
     total_users: 500,
-    page_no: 1
+    page_no: 1,
+    fetching: false
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -34,12 +35,14 @@ export default (state = initialState, action) => {
         ...state,
         users: action.payload.users,
         total_users: action.payload.count,
+        fetching: action.payload.fetching
       }
     case 'FETCH_NEXT_USERS':
       return{
         ...state,
         users: [...state.users, ...action.payload.users],
         page_no: action.payload.page_no,
+        fetching: action.payload.fetching
       }
     default:
       return state;

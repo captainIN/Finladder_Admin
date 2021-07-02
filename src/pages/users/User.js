@@ -3,10 +3,12 @@ import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
 import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
-function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no}) {
+function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
-        getAllUsers()
+        if(!fetching){
+            getAllUsers()
+        }
     }, [])
 
     const [selectedUserCourse, setselectedUserCourse] = useState(null)
@@ -27,7 +29,12 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         await fetchCourse()
         const total_count = await fetchUsers()
         for(let i=2; i<=total_count/20; i++){
-            await fetchNextUsers(i)
+            if(i === Math.floor(total_count/20)){
+                await fetchNextUsers(i, false)
+            }else{
+                await fetchNextUsers(i, true)
+            }
+            
         }
     }
     const handleSubmit = async (courseId) => {
@@ -140,7 +147,8 @@ const mapStateToProps = state => {
         users: state.main.users,
         courses: state.main.courses,
         total_users: state.main.total_users,
-        page_no: state.main.page_no
+        page_no: state.main.page_no,
+        fetching: state.main.fetching
     }
 }
 export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(User)
