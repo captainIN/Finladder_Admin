@@ -224,6 +224,21 @@ export const fetchUsers = () => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_USERS,
-    payload: res.data
+    payload: {users:res.data.data, count: res.data.count}
+  });
+  return res.data.count
+}
+
+export const FETCH_NEXT_USERS = 'FETCH_NEXT_USERS';
+export const fetchNextUsers = (page_no) => async (dispatch, getState) => {
+  const res = await axios.get(`${API_URL}/get-all-users?page=${page_no}`, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  dispatch({
+    type: FETCH_NEXT_USERS,
+    payload: {users:res.data.data, count: res.data.count, page_no: page_no}
   });
 }

@@ -3,7 +3,9 @@ const initialState = {
     categories: [],
     banners: [],
     coupons: [],
-    users: []
+    users: [],
+    total_users: 500,
+    page_no: 1
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -30,7 +32,14 @@ export default (state = initialState, action) => {
     case 'FETCH_USERS':
       return{
         ...state,
-        users: action.payload
+        users: action.payload.users,
+        total_users: action.payload.count,
+      }
+    case 'FETCH_NEXT_USERS':
+      return{
+        ...state,
+        users: [...state.users, ...action.payload.users],
+        page_no: action.payload.page_no,
       }
     default:
       return state;

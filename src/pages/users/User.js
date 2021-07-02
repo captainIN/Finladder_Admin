@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
-import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse } from '../../store/actions'
-function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse}) {
+import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
+function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
         getAllUsers()
@@ -25,7 +25,10 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
 
     const getAllUsers = async () => {
         await fetchCourse()
-        await fetchUsers(fetchCourse,)
+        const total_count = await fetchUsers()
+        for(let i=1; i<=total_count/20; i++){
+            await fetchNextUsers(i)
+        }
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -59,6 +62,8 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         <MainWrapper current="2">
             {/* <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New Coupon</Button> */}
             <br/>
+            <p>Total Users: {total_users}, Pages Loaded: {page_no}</p>
+            
             <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}} placeholder="Search..." style={{width:'300px'}}/>
             <br/>
             <Table bordered>
@@ -133,7 +138,9 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
 const mapStateToProps = state => {
     return {
         users: state.main.users,
-        courses: state.main.courses
+        courses: state.main.courses,
+        total_users: state.main.total_users,
+        page_no: state.main.page_no
     }
 }
-export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse })(User)
+export default connect(mapStateToProps, {fetchUsers,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(User)
