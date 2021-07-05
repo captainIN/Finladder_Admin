@@ -231,7 +231,7 @@ export const fetchLatestUsers = () => async (dispatch, getState) => {
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const fetchUsers = () => async (dispatch, getState) => {
-  const res = await axios.get(`https://udemy-adminside.herokuapp.com/get-all-users?cart=false`, {
+  const res = await axios.get(`${API_URL}/get-all-users?cart=false`, {
     headers: {
       "Content-Type": 'application/json',
       "Authorization": `${getState().auth.token}`
@@ -241,6 +241,16 @@ export const fetchUsers = () => async (dispatch, getState) => {
     type: FETCH_USERS,
     payload: {users:res.data.data}
   });
+}
+
+export const fetchUsersCourses = (id) => async (dispatch, getState) => {
+  const res = await axios.get(`${API_URL}/get-user-cart/${id}`, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res.data
 }
 
 export const FETCH_NEXT_USERS = 'FETCH_NEXT_USERS';
