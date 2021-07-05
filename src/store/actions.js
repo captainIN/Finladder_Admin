@@ -231,7 +231,7 @@ export const fetchLatestUsers = () => async (dispatch, getState) => {
 
 export const FETCH_USERS = 'FETCH_USERS';
 export const fetchUsers = () => async (dispatch, getState) => {
-  const res = await axios.get(`${API_URL}/get-all-users?page=1`, {
+  const res = await axios.get(`https://udemy-adminside.herokuapp.com/get-all-users?cart=false`, {
     headers: {
       "Content-Type": 'application/json',
       "Authorization": `${getState().auth.token}`
@@ -239,9 +239,8 @@ export const fetchUsers = () => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_USERS,
-    payload: {users:res.data.data, count: res.data.count, fetching: true}
+    payload: {users:res.data.data}
   });
-  return res.data.count
 }
 
 export const FETCH_NEXT_USERS = 'FETCH_NEXT_USERS';

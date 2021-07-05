@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
+import Spinner from '../../Spinner-1s.svg'
 import { fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
 function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
-        if(!fetching){
-            getAllUsers()
-        }
+        getAllUsers()
     }, [])
 
     const [selectedUserCourse, setselectedUserCourse] = useState(null)
+    const [courseLoading, setCourseLoading] = useState(true)
     const [selectedUser, setselectedUser] = useState(null)
     const [updateCategoryName, setUpdateCategoryName] = useState("")
 
@@ -27,15 +27,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
 
     const getAllUsers = async () => {
         await fetchCourse()
-        const total_count = await fetchUsers()
-        for(let i=2; i<=total_count/20; i++){
-            if(i === Math.floor(total_count/20)){
-                await fetchNextUsers(i, false)
-            }else{
-                await fetchNextUsers(i, true)
-            }
-            
-        }
+        await fetchUsers()
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -44,12 +36,17 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         })
         handleClose()
         alert("Course Assigned Successfully!")
-        getAllUsers()
+        // getAllUsers()
     }
-    const showHisCourse = (userid,id) => {
+    const showHisCourse = async (userid) => {
         setselectedUser(userid)
-        setselectedUserCourse(id)
         handleShow1()
+        setCourseLoading(true)
+        // const assigned_courses = await 
+
+        // setCourseLoading(false)
+        // setselectedUserCourse(id)
+        
     }
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -69,7 +66,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
         <MainWrapper current="2">
             {/* <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New Coupon</Button> */}
             <br/>
-            <p>Total Users: {total_users}, Pages Loaded: {page_no}</p>
+            <p>Total Users: {users.length}</p>
             
             <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}} placeholder="Search..." style={{width:'300px'}}/>
             <br/>
@@ -92,7 +89,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                                 <td>{item.name}</td>
                                 <td>{item.mobile}</td>
                                 <td>{item.email}</td>
-                                <td>Total : {item.myCart.length} | <Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item._id, item.myCart);}}>View</Button></td>
+                                <td><Button variant="primary" style={{padding:'1px 5px', fontSize:'13px'}} onClick={async ()=>{await showHisCourse(item._id);}}>View</Button></td>
                                 <td>
                                     <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
                                 </td>
@@ -127,13 +124,14 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                         <Modal.Title>Enrolled Course</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{backgroundColor:'#fff', position:'relative !important'}}>
-                        <ol>
+                        {!courseLoading && <ol>
                         {selectedUserCourse && selectedUserCourse.map((item,idx) => {
                             
                                         return <li>{item.courseId.courseName} <button onClick={async ()=>{await unassignCourse({id:selectedUser,courseId:item.courseId._id});await getAllUsers(); alert("Course Revoked"); handleClose1()}} className="btn btn-outline-danger" style={{padding:2}}>Revoke</button></li>
                                   
                         })}
-                        </ol>
+                        </ol>}
+                        {courseLoading && <div className="d-flex justify-content-center"><img src={Spinner}/></div>}
                     </Modal.Body>
             </Modal>
         </MainWrapper>
