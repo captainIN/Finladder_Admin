@@ -26,7 +26,7 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
     const handleShow1 = () => setShow1(true);
 
     const getAllUsers = async () => {
-        // await fetchCourse()
+        await fetchCourse()
         await fetchUsers()
     }
     const handleSubmit = async (courseId) => {
