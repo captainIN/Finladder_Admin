@@ -82,7 +82,7 @@ function User({fetchUsers, fetchCourse, createCoupon, updateCategory, deleteCoup
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((item,idx) => {
+                    {users.slice(0).reverse().map((item,idx) => {
                         if(item.name.toLowerCase().includes(searchQuery.toLowerCase())){
                             return <tr key={item._id}>
                                 <td>{idx+1}</td>

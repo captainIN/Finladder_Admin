@@ -7,7 +7,6 @@ const MainWrapper = ({ children, current }) => (
             <Col lg={2} className="sidebar">
                 <div className={`side-link-cont ${current === "0"?'active-btn':''}`}><Link className="btn side-link" to="/">Home</Link></div>
                 <div className={`side-link-cont ${current === "1"?'active-btn':''}`}><Link className="btn side-link" to="/courses">Courses</Link></div>
-                <div className={`side-link-cont ${current === "1.5"?'active-btn':''}`}><Link className="btn side-link" to="/latest-students">New Student</Link></div>
                 <div className={`side-link-cont ${current === "2"?'active-btn':''}`}><Link className="btn side-link" to="/students">Student</Link></div>
                 <div className={`side-link-cont ${current === "3"?'active-btn':''}`}><Link className="btn side-link" to="/coupons">Coupons</Link></div>
                 <div className={`side-link-cont ${current === "4"?'active-btn':''}`}><Link className="btn side-link" to="/categories">Categories</Link></div>
