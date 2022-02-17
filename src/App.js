@@ -8,6 +8,7 @@ import ScrollToTop from './ScrollToTop'
 
 import Navbar from './components/Navbar'
 
+import Frm from './pages/frm/frm'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home';
@@ -44,6 +45,7 @@ function App({isAuthenticated}) {
         <Route exact path="/categories" component={isAuthenticated?Category:withRouter(Login)}/>
 
         <Route exact path="/banners" component={isAuthenticated?Banner:withRouter(Login)}/>
+        <Route exact path="/frm" component={isAuthenticated?Frm:withRouter(Frm)}/>
 
         {/* Category below */}
         {/* <Route exact path="/allcategories" component={isAuthenticated?AllCategories:withRouter(Login)}/>

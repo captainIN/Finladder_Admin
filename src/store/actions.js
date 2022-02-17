@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const API_URL = "https://udemy-adminside.herokuapp.com"
-const API_URL = "https://finladder.co/api/admin"
+ const API_URL = "http://localhost:4000";
+//const API_URL = "https://finladder.co/api/admin"
 
 export const SIGNUP= 'SIGNUP';
 export const createAdmin = (name, email, mobile, password, history) => async (dispatch, getState) => {
@@ -112,6 +112,52 @@ export const fetchCategory = () => async (dispatch, getState) => {
     payload: res.data
   });
 }
+
+export const FETCH_FRMS = 'FETCH_FRMS';
+export const fetchfrms = () => async (dispatch, getState) => {
+  console.log('reunn')
+  const res = await axios.get(`${API_URL}/frms`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  dispatch({
+    type: FETCH_FRMS,
+    payload: res.data
+  });
+}
+
+export const FETCH_CFMS = 'FETCH_CFMS';
+export const fetchcfms = () => async (dispatch, getState) => {
+  console.log('reunn')
+  const res = await axios.get(`${API_URL}/cfms`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  dispatch({
+    type: FETCH_CFMS,
+    payload: res.data
+  });
+}
+export const FETCH_CFAS = 'FETCH_CFAS';
+export const fetchcfas = () => async (dispatch, getState) => {
+ 
+  const res = await axios.get(`${API_URL}/cfas`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  dispatch({
+    type: FETCH_CFAS,
+    payload: res.data
+  });
+}
+export const FETCH_EQRS = 'FETCH_EQRS';
+export const fetcheqrs = () => async (dispatch, getState) => {
+ 
+  const res = await axios.get(`${API_URL}/eqrs`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  dispatch({
+    type: FETCH_EQRS,
+    payload: res.data
+  });
+}
 export const CREATE_CATEGORY = 'CREATE_CATEGORY';
 export const createCategory = (data) => async (dispatch, getState) => {
   const res = await axios.post(`${API_URL}/postCategory`,data, {
@@ -164,6 +210,47 @@ export const createCoupon = (data) => async (dispatch, getState) => {
   });
   return res
 }
+export const CREATE_FRM = 'CREATE_FRM';
+export const CREATEFRM = (data) => async (dispatch, getState) => {
+  const res = await axios.post(`${API_URL}/create-frm`,data, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res
+}
+
+export const CREATE_CFM = 'CREATE_CFM';
+export const CREATECFM = (data) => async (dispatch, getState) => {
+  const res = await axios.post(`${API_URL}/create-cfm`,data, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res
+}
+export const CREATE_CFA = 'CREATE_CFA';
+export const CREATECFA = (data) => async (dispatch, getState) => {
+  const res = await axios.post(`${API_URL}/create-cfa`,data, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res
+}
+export const CREATE_EQR = 'CREATE_EQR';
+export const CREATEEQR = (data) => async (dispatch, getState) => {
+  const res = await axios.post(`${API_URL}/create-eqr`,data, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  return res
+}
 export const ASSIGN_COURSE = 'ASSIGN_COURSE';
 export const assignCourse = (data) => async (dispatch, getState) => {
   const res = await axios.post(`${API_URL}/assign-course-to-user`,data, {
@@ -205,7 +292,37 @@ export const deleteCoupon = (id) => async (dispatch, getState) => {
   });
   return res
 }
+export const DELETE_FRM = 'DELETE_Frm';
 
+export const deleteFrm = (id) => async (dispatch, getState) => {
+  const res = await axios.delete(`${API_URL}/deletefrm/${id}`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  return res
+}
+export const DELETE_CLA = 'DELETE_cla';
+
+export const deleteCla = (id) => async (dispatch, getState) => {
+  const res = await axios.delete(`${API_URL}/delete-cla/${id}`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  return res
+}
+export const DELETE_eqr = 'DELETE_eqr'
+export const deleteEqr = (id) => async (dispatch, getState) => {
+  const res = await axios.delete(`${API_URL}/delete-eqr/${id}`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  return res
+}
+export const DELETE_CFM = 'DELETE_CFM';
+
+export const deleteCfm = (id) => async (dispatch, getState) => {
+  const res = await axios.delete(`${API_URL}/delete-cfm/${id}`,{
+    headers: {Authorization: `${getState().auth.token}`}
+  });
+  return res
+}
 export const DELETE_COURSE = 'DELETE_COURSE';
 export const deleteCourse = (id) => async (dispatch, getState) => {
   const res = await axios.delete(`${API_URL}/deletecourse/${id}`,{

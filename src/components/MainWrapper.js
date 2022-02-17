@@ -11,6 +11,8 @@ const MainWrapper = ({ children, current }) => (
                 <div className={`side-link-cont ${current === "3"?'active-btn':''}`}><Link className="btn side-link" to="/coupons">Coupons</Link></div>
                 <div className={`side-link-cont ${current === "4"?'active-btn':''}`}><Link className="btn side-link" to="/categories">Categories</Link></div>
                 <div className={`side-link-cont ${current === "5"?'active-btn':''}`}><Link className="btn side-link" to="/banners">Home Screen Banners</Link></div>
+                <div className={`side-link-cont ${current === "6"?'active-btn':''}`}>
+                    <Link className="btn side-link" to="/frm">FRM</Link></div>
             </Col>
             <Col lg={10} className="manage-scroll" >
                 <br/>

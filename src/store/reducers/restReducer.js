@@ -3,6 +3,7 @@ const initialState = {
     categories: [],
     banners: [],
     coupons: [],
+    Frm: [],cfm:[],cfa:[],eqr:[],
     latest_users: [],
     users: [],
     total_users: 500,
@@ -31,6 +32,26 @@ export default (state = initialState, action) => {
         ...state,
         coupons: action.payload
       }
+      case 'FETCH_FRMS':
+        return{
+          ...state,
+          Frm: action.payload
+        }
+        case 'FETCH_CFMS':
+        return{
+          ...state,
+          cfm: action.payload
+        }
+        case 'FETCH_CFAS':
+          return{
+            ...state,
+            cfa: action.payload
+          }
+          case 'FETCH_EQRS':
+            return{
+              ...state,
+              eqr: action.payload
+            }
     case 'FETCH_LATEST_USERS':
       return{
         ...state,
