@@ -9,6 +9,9 @@ import ScrollToTop from './ScrollToTop'
 import Navbar from './components/Navbar'
 
 import Frm from './pages/frm/frm'
+import Cla from './pages/cfa/cfa'
+import Clm from './pages/cfm/cfm'
+import Eqr from './pages/eqr/eqr'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home';
@@ -46,6 +49,9 @@ function App({isAuthenticated}) {
 
         <Route exact path="/banners" component={isAuthenticated?Banner:withRouter(Login)}/>
         <Route exact path="/frm" component={isAuthenticated?Frm:withRouter(Frm)}/>
+        <Route exact path="/cla" component={isAuthenticated?Cla:withRouter(Cla)}/>
+        <Route exact path="/clm" component={isAuthenticated?Clm:withRouter(Clm)}/>
+        <Route exact path="/eqr" component={isAuthenticated?Eqr:withRouter(Eqr)}/>
 
         {/* Category below */}
         {/* <Route exact path="/allcategories" component={isAuthenticated?AllCategories:withRouter(Login)}/>

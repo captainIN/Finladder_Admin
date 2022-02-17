@@ -292,7 +292,7 @@ export const deleteCoupon = (id) => async (dispatch, getState) => {
   });
   return res
 }
-export const DELETE_FRM = 'DELETE_Frm';
+export const DELETE_FRM = 'DELETE_FRM';
 
 export const deleteFrm = (id) => async (dispatch, getState) => {
   const res = await axios.delete(`${API_URL}/deletefrm/${id}`,{
@@ -300,7 +300,7 @@ export const deleteFrm = (id) => async (dispatch, getState) => {
   });
   return res
 }
-export const DELETE_CLA = 'DELETE_cla';
+export const DELETE_CLA = 'DELETE_CLA';
 
 export const deleteCla = (id) => async (dispatch, getState) => {
   const res = await axios.delete(`${API_URL}/delete-cla/${id}`,{
@@ -308,7 +308,7 @@ export const deleteCla = (id) => async (dispatch, getState) => {
   });
   return res
 }
-export const DELETE_eqr = 'DELETE_eqr'
+export const DELETE_EQR = 'DELETE_EQR'
 export const deleteEqr = (id) => async (dispatch, getState) => {
   const res = await axios.delete(`${API_URL}/delete-eqr/${id}`,{
     headers: {Authorization: `${getState().auth.token}`}

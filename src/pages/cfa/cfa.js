@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
-import { fetchcfms, CREATEcfm, updateCategory, deletecfm } from '../../store/actions'
+import { fetchcfas, CREATECFA, updateCategory, deleteCla } from '../../store/actions'
 import CKEditor from 'ckeditor4-react';
 
-function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
+function Cfa({fetchcfas, CREATECFA, updateCategory, deleteCla, cfa}) {
     useEffect(() => {
         console.log("F")
-        getAllcfms()
+        getAllcfas()
     }, [0])
     const [newImage, setNewImage] = useState("")
     const [newHeading, setNewHeading] = useState("")
@@ -25,18 +25,18 @@ function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
 
-    const getAllcfms = async () => {
+    const getAllcfas = async () => {
         console.log(':running')
-        await fetchcfms()
+        await fetchcfas()
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = await CREATEcfm({
+        const res = await CREATECFA({
             heading:newHeading,image:newImage,content:newContent
         })
         console.log(res)
         handleClose()
-        getAllcfms()
+        getAllcfas()
     }
     const beginUpdate = (id, name) => {
         setcurrentCategory({id: id, name: name})
@@ -50,12 +50,12 @@ function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
             "categoryId": currentCategory.id
         })
         handleClose1()
-        getAllcfms()
+        getAllcfas()
     }
     return (
         
-        <MainWrapper current="6">
-            <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New cfm</Button>
+        <MainWrapper current="8">
+            <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New cfa</Button>
             <br/>
             <Table bordered>
                 <thead>
@@ -67,13 +67,13 @@ function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
                     </tr>
                 </thead>
                 <tbody>
-                    {cfm.map(item => {
+                    {cfa.map(item => {
                         return <tr key={item._id}>
                             <td>{item.heading}</td>
                             <td><img style={{width:'80px'}} src={item.image}/></td>
                             <td>{item.content?.slice(0,20)}....</td>
                             <td>
-                                <Button variant="outline-danger" onClick={async ()=>{await deletecfm(item._id); getAllcfms()}}>Delete</Button>
+                                <Button variant="outline-danger" onClick={async ()=>{await deleteCla(item._id); getAllcfas()}}>Delete</Button>
                             </td>
                         </tr>
                     })}
@@ -82,7 +82,7 @@ function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Form>
                     <Modal.Header closeButton>
-                        <Modal.Title>New cfm</Modal.Title>
+                        <Modal.Title>New cfa</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{backgroundColor:'#fff'}}>
                         <Form.Group>
@@ -143,7 +143,7 @@ function cfm({fetchcfms, CREATEcfm, updateCategory, deletecfm, cfm}) {
 const mapStateToProps = state => {
     console.log(state)
     return {
-        cfm: state.main.cfm
+        cfa: state.main.cfa
     }
 }
-export default connect(mapStateToProps, {fetchcfms, CREATEcfm, updateCategory, deletecfm })(cfm)
+export default connect(mapStateToProps, {fetchcfas, CREATECFA, updateCategory, deleteCla })(Cfa)
