@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button, Modal } from 'react-bootstrap'
-import { fetchCourse, deleteCourse } from '../../store/actions'
+import { fetchCourse, deleteCourse, fetchCategory } from '../../store/actions'
 
-function Course({fetchCourse, deleteCourse, courses, categories}) {
+function Course({fetchCourse, fetchCategory, deleteCourse, courses, categories}) {
     const [selectedCat, setselectedCat] = useState("all")
     const [show, setShow] = useState(false);
     const [currentCourse, setCurrentCourse] = useState(null);
@@ -15,6 +15,7 @@ function Course({fetchCourse, deleteCourse, courses, categories}) {
     const currentCat = useRef("all")
 
     useEffect( () => {
+        getAllCategory()
         fetchAllCourse()
         return () => {
             console.log("Unmounted All belts Page")
@@ -22,6 +23,9 @@ function Course({fetchCourse, deleteCourse, courses, categories}) {
     }, [])
     const fetchAllCourse = async () => {
         await fetchCourse()
+    }
+    const getAllCategory = async () => {
+        await fetchCategory()
     }
     const showDetail = (data) => {
         
@@ -144,4 +148,4 @@ const mapStatesToProps = state => {
         categories: state.main.categories
     }
 }
-export default connect(mapStatesToProps,{fetchCourse, deleteCourse})(Course);
+export default connect(mapStatesToProps,{fetchCourse, deleteCourse, fetchCategory})(Course);
