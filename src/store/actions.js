@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // const API_URL = "https://udemy-adminside.herokuapp.com"
-const API_URL = "https://efinladder.in/api/admin"
+export const API_URL = "https://efinladder.in/api/admin"
 
 export const SIGNUP= 'SIGNUP';
 export const createAdmin = (name, email, mobile, password, history) => async (dispatch, getState) => {
@@ -308,6 +308,9 @@ export const deleteCla = (id) => async (dispatch, getState) => {
   });
   return res
 }
+export const COURSE_BY_ID = 'COURSE_BY_ID';
+
+
 export const DELETE_EQR = 'DELETE_EQR'
 export const deleteEqr = (id) => async (dispatch, getState) => {
   const res = await axios.delete(`${API_URL}/delete-eqr/${id}`,{

@@ -21,6 +21,7 @@ import CourseWizard from './pages/courses/CourseWizard';
 import Category from './pages/category/Category';
 import Banner from './pages/banners/Banner';
 import Coupon from './pages/coupon/Coupon';
+import Rearrage from './pages/courses/Rearrage';
 import User from './pages/users/User';
 import EditCourseWizard from './pages/courses/EditCourseWizard';
 import LatestUsers from './pages/users/LatestUsers';
@@ -36,6 +37,7 @@ function App({isAuthenticated}) {
         {/* Courses below */}
         <Route exact path="/courses" component={isAuthenticated?Course:withRouter(Login)}/>
         <Route exact path="/course/edit/:id" component={isAuthenticated?EditCourseWizard:withRouter(Login)}/>
+        <Route exact path="/course/rearrage/:id" component={isAuthenticated?Rearrage:withRouter(Login)}/>
         {/* <Route exact path="/detail/belt/:id" component={isAuthenticated?BeltDetailPage:withRouter(Login)}/> */}
         <Route exact path="/create/course" component={isAuthenticated?CourseWizard:withRouter(Login)}/>
         {/* <Route exact path="/edit/belt/:id" component={isAuthenticated?EditBelt:withRouter(Login)}/> */}
@@ -60,7 +62,7 @@ function App({isAuthenticated}) {
         
 {/* 
         <Route exact path="/allusers" component={isAuthenticated?Users:withRouter(Login)}/>
-        <Route exact path="/users/:id" component={isAuthenticated?ShowUserOrders:withRouter(Login)}/> */}
+      <Route exact path="/users/:id" component={isAuthenticated?ShowUserOrders:withRouter(Login)}/> */}
 
         <Route path="/login" component={withRouter(Login)}/>
         <Route path="/register" component={withRouter(Register)}/>

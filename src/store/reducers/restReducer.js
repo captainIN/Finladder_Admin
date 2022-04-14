@@ -7,7 +7,7 @@ const initialState = {
     latest_users: [],
     users: [],
     total_users: 500,
-    page_no: 1,
+    page_no: 1,courseDetails:{},
     fetching: false
 }
 export default (state = initialState, action) => {
@@ -17,6 +17,11 @@ export default (state = initialState, action) => {
         ...state,
         courses: action.payload
       }
+      case 'COURSE_BY_ID':
+        return {
+          ...state,
+          courseDetails: action.payload
+        }
     case 'FETCH_CATEGORY':
       return {
         ...state,

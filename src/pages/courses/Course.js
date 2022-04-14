@@ -59,6 +59,7 @@ function Course({fetchCourse, fetchCategory, deleteCourse, courses, categories})
                         <th style={{textAlign:'center', width: '10%'}}>Price</th>
                         <th style={{textAlign:'center', width: '10%'}}>Total Topics</th>
                         <th style={{textAlign:'center', width: '1%'}}>Show</th>
+                        <th style={{textAlign:'center', width: '1%'}}>Rearrage</th>
                         <th style={{textAlign:'center', width: '1%'}}>Edit</th>
                         <th style={{textAlign:'center', width: '1%'}}>Delete</th>
                     </tr>
@@ -74,6 +75,10 @@ function Course({fetchCourse, fetchCategory, deleteCourse, courses, categories})
                                 <td>{course.price}</td>
                                 <td>{course.topics.length}</td>
                                 <td><Button variant="outline-primary" onClick={()=>showDetail(course)}>Show</Button></td>
+                                <Link to={`/course/rearrage/${course._id}`}><td>
+                                
+                                <td><Button variant="outline-primary" >Rearrange</Button></td>
+                                </td></Link>
                                 <td><Link to={`/course/edit/${course._id}`} className="btn btn-outline-primary">Edit</Link></td>
                                 <td><Button variant="outline-danger" onClick={async ()=>{await deleteCourse(course._id); fetchAllCourse()}}>Delete</Button></td>
                             </tr>
