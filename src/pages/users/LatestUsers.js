@@ -74,7 +74,7 @@ function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategor
                 </thead>
                 <tbody>
                     {users.map((item,idx) => {
-                        if(item.name.toLowerCase().includes(searchQuery.toLowerCase())){
+                        if(item?.name?.toLowerCase().includes(searchQuery?.toLowerCase())){
                             return <tr key={item._id}>
                                 <td>{idx+1}</td>
                                 <td>{item.name}</td>
