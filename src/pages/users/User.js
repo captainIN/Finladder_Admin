@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
+import { Stack,Pagination } from '@mui/material'
 import { connect } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
 import Spinner from '../../Spinner-1s.svg'
-import { fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
-function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
+import { fetchUsers, fetchUsersCourses,searchUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
+
+function User({fetchUsers, fetchUsersCourses,searchUsers, fetchCourse,count,total_pages, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
         getAllUsers()
@@ -24,10 +26,18 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
     const handleShow = () => setShow(true);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
-
+    const changePage=async(value)=>{
+        console.log(value)
+        await fetchUsers(value-1)
+    }
     const getAllUsers = async () => {
         await fetchCourse()
-        await fetchUsers()
+        await fetchUsers(0)
+    }
+    const SearchUser=async()=>{
+        await searchUsers(searchQuery)
+        console.log(users)
+        
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -72,10 +82,25 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
         <MainWrapper current="2">
             {/* <Button style={{float:'right', marginBottom: '10px'}} onClick={handleShow}>New Coupon</Button> */}
             <br/>
-            <p>Total Users: {users.length}</p>
-            
-            <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}} placeholder="Search..." style={{width:'300px'}}/>
+            <p>Total Users: {total_users}</p>
+            <div className='d-flex'>
+
+            <input type="text" className="form-control" onChange={(e)=>{setsearchQuery(e.target.value)}}
+             placeholder="Search..." style={{width:'300px'}}/>
+            <button className="btn mr-2 btn-outline-primary" onClick={SearchUser}>
+Search
+    </button>
+             </div>
             <br/>
+<div className='w-100'>
+
+            <Stack spacing={4}>
+            
+            <Pagination  size={'large'} color="primary" count={total_pages+1} onChange={(e, value) => changePage(value)} />
+  
+    </Stack>
+   
+</div>
             <Table bordered>
                 <thead>
                     <tr>
@@ -88,8 +113,8 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
                     </tr>
                 </thead>
                 <tbody>
-                        {users.slice(0).reverse().map((item,idx) => {
-                        if(item?.name?.toLowerCase().includes(searchQuery?.toLowerCase())){
+                        {users.map((item,idx) => {
+                       
                             return <tr key={item._id}>
                                 <td>{idx+1}</td>
                                 <td>{item.name}</td>
@@ -100,10 +125,11 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
                                     <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
                                 </td>
                             </tr>
-                        }
+                        
                     })}
                 </tbody>
             </Table>
+           
             <Modal show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Select A Course To Assign</Modal.Title>
@@ -145,12 +171,15 @@ function User({fetchUsers, fetchUsersCourses, fetchCourse, createCoupon, updateC
     )
 }
 const mapStateToProps = state => {
+    console.log(state,"heloo")
     return {
         users: state.main.users,
+        count: state.main.count,
         courses: state.main.courses,
         total_users: state.main.total_users,
+        total_pages: state.main.total_pages,
         page_no: state.main.page_no,
         fetching: state.main.fetching
     }
 }
-export default connect(mapStateToProps, {fetchUsers, fetchUsersCourses,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(User)
+export default connect(mapStateToProps, {fetchUsers,searchUsers, fetchUsersCourses,fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers })(User)

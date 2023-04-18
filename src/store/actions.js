@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 // const API_URL = "https://udemy-adminside.herokuapp.com"
-export const API_URL = "https://admin.efinladder.in/"
+export const API_URL = "https://admin.efinladder.in/api"
+//export const API_URL = "http://localhost:4000"
 
 export const SIGNUP= 'SIGNUP';
 export const createAdmin = (name, email, mobile, password, history) => async (dispatch, getState) => {
@@ -335,8 +336,8 @@ export const deleteCourse = (id) => async (dispatch, getState) => {
 }
 
 export const FETCH_LATEST_USERS = 'FETCH_LATEST_USERS';
-export const fetchLatestUsers = () => async (dispatch, getState) => {
-  const res = await axios.get(`${API_URL}/get-all-users?page=1`, {
+export const fetchLatestUsers = (skip) => async (dispatch, getState) => {
+  const res = await axios.get(`${API_URL}/get-all-users?page=1skip=${skip}`, {
     headers: {
       "Content-Type": 'application/json',
       "Authorization": `${getState().auth.token}`
@@ -344,14 +345,14 @@ export const fetchLatestUsers = () => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_LATEST_USERS,
-    payload: {users:res.data.data}
+    payload: {users:res.data.data,total_pages:res.data.total_pages}
   });
   return res.data.count
 }
 
 export const FETCH_USERS = 'FETCH_USERS';
-export const fetchUsers = () => async (dispatch, getState) => {
-  const res = await axios.get(`${API_URL}/get-all-users?cart=false`, {
+export const fetchUsers = (id) => async (dispatch, getState) => {
+  const res = await axios.get(`${API_URL}/get-all-users?cart=false&skip=${id}`, {
     headers: {
       "Content-Type": 'application/json',
       "Authorization": `${getState().auth.token}`
@@ -359,10 +360,24 @@ export const fetchUsers = () => async (dispatch, getState) => {
   });
   dispatch({
     type: FETCH_USERS,
+    payload: {users:res.data.data,total_pages:res.data.total_pages,count:res.data.count}
+  });
+}
+export const SEARCH = 'SEARCH';
+
+export const searchUsers = (id) => async (dispatch, getState) => {
+  console.log('search')
+  const res = await axios.get(`${API_URL}/search?searchTerm=${id}`, {
+    headers: {
+      "Content-Type": 'application/json',
+      "Authorization": `${getState().auth.token}`
+    }
+  });
+  dispatch({
+    type: SEARCH,
     payload: {users:res.data.data}
   });
 }
-
 export const fetchUsersCourses = (id) => async (dispatch, getState) => {
   const res = await axios.get(`${API_URL}/get-user-cart/${id}`, {
     headers: {

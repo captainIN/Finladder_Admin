@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Modal, Table } from 'react-bootstrap'
-import { connect } from 'react-redux'
+import { connect, useStore } from 'react-redux'
 import MainWrapper from '../../components/MainWrapper'
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { fetchLatestUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, assignCourse, unassignCourse, fetchNextUsers } from '../../store/actions'
-function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategory, deleteCoupon, users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
+function LatestUsers({fetchLatestUsers, fetchCourse, updateCategory,  users, assignCourse, courses, unassignCourse, fetchNextUsers, total_users, page_no, fetching}) {
     const [searchQuery, setsearchQuery] = useState("")
     useEffect(() => {
             getAllLatestUsers()
     }, [])
-
+   
     const [selectedUserCourse, setselectedUserCourse] = useState(null)
+    const [cpage, setPageApi] = useState(1)
     const [selectedUser, setselectedUser] = useState(null)
     const [updateCategoryName, setUpdateCategoryName] = useState("")
 
@@ -25,7 +28,7 @@ function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategor
 
     const getAllLatestUsers = async () => {
         await fetchCourse()
-        await fetchLatestUsers()
+        await fetchLatestUsers(0)
     }
     const handleSubmit = async (courseId) => {
         const res = await assignCourse({
@@ -54,6 +57,9 @@ function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategor
         setselectedUser(id)
         handleShow()
     }
+    const changePage=(value)=>{
+        console.log(value)
+    }
     return (
         
         <MainWrapper current="2.5">
@@ -74,7 +80,7 @@ function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategor
                 </thead>
                 <tbody>
                     {users.map((item,idx) => {
-                        if(item?.name?.toLowerCase().includes(searchQuery?.toLowerCase())){
+                        
                             return <tr key={item._id}>
                                 <td>{idx+1}</td>
                                 <td>{item.name}</td>
@@ -85,10 +91,14 @@ function LatestUsers({fetchLatestUsers, fetchCourse, createCoupon, updateCategor
                                     <Button variant="outline-info" onClick={async ()=>{await beginAssigning(item._id);}}>Assign Course</Button>
                                 </td>
                             </tr>
-                        }
+                        
                     })}
                 </tbody>
             </Table>
+            <Stack spacing={2}>
+            <Pagination count={10} onChange={(e, value) => changePage(value)} />
+  
+    </Stack>
             <Modal show={show} onHide={handleClose} animation={false}>
                     <Modal.Header closeButton>
                         <Modal.Title>Select A Course To Assign</Modal.Title>
@@ -133,6 +143,7 @@ const mapStateToProps = state => {
         courses: state.main.courses,
         total_users: state.main.total_users,
         page_no: state.main.page_no,
+        total_pages: state.main.total_pages,
         fetching: state.main.fetching
     }
 }

@@ -8,7 +8,7 @@ const initialState = {
     users: [],
     total_users: 500,
     page_no: 1,courseDetails:{},
-    fetching: false
+    fetching: false,total_pages:100,count:9000
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -67,8 +67,16 @@ export default (state = initialState, action) => {
         ...state,
         users: action.payload.users,
         total_users: action.payload.count,
+        total_pages: action.payload.total_pages,
         fetching: action.payload.fetching
       }
+      case 'SEARCH':
+        return{
+          ...state,
+          users: action.payload.users,
+         
+          fetching: action.payload.fetching
+        }
     case 'FETCH_NEXT_USERS':
       return{
         ...state,
